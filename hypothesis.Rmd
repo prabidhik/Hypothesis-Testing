@@ -1,0 +1,52 @@
+---
+title: "Hypothesis Testing"
+author: "Prabidhik KC"
+date: "2022-11-25"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+## Loading the necessary packages
+
+library(tidyverse)
+library(gov50data)
+library(infer)
+```
+
+
+```{r}
+tea
+
+## Eandomly guessing the order
+tea %>% 
+  mutate(random_guess = sample(guess))
+```
+
+
+```{r}
+null_dist <- tibble(
+  trump_share = rbinom(n = 1000, size = 1363, prob = 0.475)/1363
+)
+
+null_dist
+
+
+```
+
+```{r}
+null_dist %>% 
+  ggplot(mapping = aes(x = trump_share)) +
+  geom_histogram(binwidth = 0.01) +
+  geom_vline(xintercept = 0.475, size = 1.5) +
+  geom_vline(xintercept = 0.44, size = 1.25, color = "red") +
+  geom_vline(xintercept = 0.51, size = 1.25, color = "red")
+```
+
+```{r}
+mean(null_dist$trump_share < 0.44) + mean(null_dist$trump_share > 0.51)
+```
+
